@@ -46,4 +46,7 @@ dependencies {
     //moshi converter lib
     implementation 'com.squareup.retrofit2:converter-moshi:2.6.0'
 
+    //glide lib
+    implementation 'com.dyhdyh.support:glide:1.0.0'
+
 }

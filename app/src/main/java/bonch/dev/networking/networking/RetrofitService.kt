@@ -1,23 +1,30 @@
 package bonch.dev.networking.networking
 
+import bonch.dev.networking.models.Album
+import bonch.dev.networking.models.Photos
 import bonch.dev.networking.models.Post
+import bonch.dev.networking.models.Users
 import retrofit2.Response
-import retrofit2.http.GET
-
-/*Интерфейс, который отвечает за составление запросов к серверу.
-Запросы могут быть не только GET, но и POST, PUT, DELETE, PATCH
-
- */
+import retrofit2.http.*
 
 interface RetrofitService {
+    @GET("/users")
+    suspend fun TransferToUsersActivity(): Response<List<Users>>
 
-    //Тип запроса с указание в скобках эндпоинта
-    @GET("/posts")
+    @GET("/albums")
+    suspend fun TransferToAlbumsActivity(@Query("userId") userId: Int = 1): Response<List<Album>>
 
-    //Объявление функции с модификатором suspend
-    //т.е. она будет вызвана из корутины, т.к. будет выполнять обращаение к серверу
-    //Response это тип возвращаемых данных, который подразумевает успех и возможную ошибку,
-    //при успешном выполнении запроса будет предоставлен массив из объектов типа Post
-    suspend fun getPosts() : Response<List<Post>>
+    @DELETE("/albums/{id}")
+    suspend fun DeleteInAlbumsActivity(@Path("id") id: Int): Response<*>
 
+    @GET("/photos")
+    suspend fun TransferToPhotosActivity(): Response<List<Photos>>
+
+    @FormUrlEncoded
+    @POST("/posts")
+    suspend fun TransferToFragment(
+        @Field("title") title: String,
+        @Field("body") body: String
+
+    ): Response<Post>
 }
